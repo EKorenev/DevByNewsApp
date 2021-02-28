@@ -30,6 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -46,4 +50,11 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
     // Parser for HTML
     implementation 'org.jsoup:jsoup:1.13.1'
+    // View libraries
+    implementation "androidx.activity:activity-ktx:1.2.0"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    // ViewModel LifeData LifeCycle
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    // Image loader
+    implementation 'io.coil-kt:coil:1.0.0'
 }
