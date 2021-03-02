@@ -8,8 +8,8 @@ class NewsWebServiceDataMapper(
     private val newsWebServiceResponseParser: NewsWebServiceResponseParser
 ) : Mapper<Any, NewsWebServiceData> {
     override fun map(input: Any): NewsWebServiceData {
-        val webNewsArticles = when (input) {
-            is String -> newsWebServiceResponseParser.parseToWebNewsArticleList(input)
+        val webNewsArticles = when {
+            input is String && input.isNotEmpty() -> newsWebServiceResponseParser.parseToWebNewsArticleList(input)
             else -> (null)
         }
         return NewsWebServiceData(webNewsArticles)
