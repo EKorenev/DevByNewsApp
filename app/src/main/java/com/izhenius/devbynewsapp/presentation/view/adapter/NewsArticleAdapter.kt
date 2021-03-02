@@ -7,7 +7,8 @@ import coil.load
 import com.izhenius.devbynewsapp.databinding.LayoutNewsArticleItemBinding
 import com.izhenius.devbynewsapp.domain.model.NewsArticle
 
-class NewsArticleAdapter : RecyclerView.Adapter<NewsArticleViewHolder>() {
+class NewsArticleAdapter(private val onItemClickListener: OnItemClickListener) :
+    RecyclerView.Adapter<NewsArticleViewHolder>() {
     private val items = mutableListOf<NewsArticle>()
     private lateinit var binding: LayoutNewsArticleItemBinding
 
@@ -22,9 +23,11 @@ class NewsArticleAdapter : RecyclerView.Adapter<NewsArticleViewHolder>() {
 
     override fun onBindViewHolder(holder: NewsArticleViewHolder, position: Int) {
         val newsArticle = items[position]
+        val newsArticleUrl = newsArticle.url.orEmpty()
         val newsArticleTitle = newsArticle.title.orEmpty()
         val newsArticleUrlToImage = newsArticle.urlToImage.orEmpty()
         holder.bind(newsArticleTitle, newsArticleUrlToImage)
+        holder.itemView.setOnClickListener { onItemClickListener.onItemClick(newsArticleUrl) }
     }
 
     override fun getItemCount(): Int {
@@ -39,6 +42,10 @@ class NewsArticleAdapter : RecyclerView.Adapter<NewsArticleViewHolder>() {
             notifyItemRangeInserted(newItemsPositionStart, newItemsCount)
         }
     }
+
+    interface OnItemClickListener {
+        fun onItemClick(url: String)
+    }
 }
 
 class NewsArticleViewHolder(layoutItemBinding: LayoutNewsArticleItemBinding) :
@@ -48,6 +55,9 @@ class NewsArticleViewHolder(layoutItemBinding: LayoutNewsArticleItemBinding) :
 
     fun bind(title: String, urlToImage: String) {
         newsArticleTitle.text = title
-        imageNewsArticle.load(urlToImage)
+        imageNewsArticle.load(urlToImage) {
+            crossfade(true)
+            crossfade(300)
+        }
     }
 }
